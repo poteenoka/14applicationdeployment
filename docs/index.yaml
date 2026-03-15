@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  jenkinsPoteenoka:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2026-03-15T10:24:37.480991357Z"
+    description: A Helm chart for Kubernetes
+    digest: 6cd32836102ab19f6b492a482456c665be549d265dceb42b4c3bf5d9b5755d9b
+    name: jenkinsPoteenoka
+    type: application
+    urls:
+    - https://github.com/poteenoka/14applicationdeployment.git/docs/jenkinsPoteenoka-0.1.0.tgz
+    version: 0.1.0
+generated: "2026-03-15T10:24:37.480464429Z"
