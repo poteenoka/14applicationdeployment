@@ -1,0 +1,14 @@
+prometheus:
+  server:
+    service:
+      type: ClusterIP
+
+grafana:
+  adminUser: admin
+  adminPassword: "Mypass2D"
+  service:
+    type: ClusterIP
+
+# Istio host routing settings (same style as previous chart)
+hostOctet: 3
+gatewayPort: 80

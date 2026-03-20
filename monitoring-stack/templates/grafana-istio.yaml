@@ -1,0 +1,35 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: grafana-gateway
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: {{ .Values.gatewayPort }}
+        name: http
+        protocol: HTTP
+      hosts:
+        - grafana.k8s-{{ .Values.hostOctet }}.sa
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: grafana
+  namespace: {{ .Release.Namespace }}
+spec:
+  hosts:
+    - grafana.k8s-{{ .Values.hostOctet }}.sa
+  gateways:
+    - grafana-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: {{ .Release.Name }}-grafana.{{ .Release.Namespace }}.svc.cluster.local
+            port:
+              number: 80

@@ -3,12 +3,30 @@ entries:
   jenkinsPoteenoka:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2026-03-15T16:22:14.933195064Z"
+    created: "2026-03-20T20:26:21.435950526Z"
     description: A Helm chart for Kubernetes
     digest: 6cd32836102ab19f6b492a482456c665be549d265dceb42b4c3bf5d9b5755d9b
     name: jenkinsPoteenoka
     type: application
     urls:
-    - https://github.com/poteenoka/14applicationdeployment.git/docs/jenkinsPoteenoka-0.1.0.tgz
+    - https://poteenoka.github.io/14applicationdeployment/jenkinsPoteenoka-0.1.0.tgz
     version: 0.1.0
-generated: "2026-03-15T16:22:14.932403993Z"
+  monitoring-stack:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2026-03-20T20:26:21.449625424Z"
+    dependencies:
+    - name: prometheus
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 25.30.0
+    - name: grafana
+      repository: https://grafana.github.io/helm-charts
+      version: 8.5.1
+    description: Prometheus + Grafana umbrella chart
+    digest: 46e7f028299a456bda4faa5f9eb341966d8b2e22e0ab1f40c0719645120b6df4
+    name: monitoring-stack
+    type: application
+    urls:
+    - https://poteenoka.github.io/14applicationdeployment/monitoring-stack-0.1.1.tgz
+    version: 0.1.1
+generated: "2026-03-20T20:26:21.434562444Z"
