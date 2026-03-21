@@ -3,7 +3,7 @@ entries:
   jenkinsPoteenoka:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2026-03-20T22:04:19.669977862Z"
+    created: "2026-03-21T09:19:17.594188865Z"
     description: A Helm chart for Kubernetes
     digest: 6cd32836102ab19f6b492a482456c665be549d265dceb42b4c3bf5d9b5755d9b
     name: jenkinsPoteenoka
@@ -14,7 +14,7 @@ entries:
   monitoring-stack:
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2026-03-20T22:04:19.70446307Z"
+    created: "2026-03-21T09:19:17.645307214Z"
     dependencies:
     - name: prometheus
       repository: https://prometheus-community.github.io/helm-charts
@@ -23,7 +23,24 @@ entries:
       repository: https://grafana.github.io/helm-charts
       version: 8.5.1
     description: Prometheus + Grafana umbrella chart
-    digest: b0f8a735de48836bedf8f1995b958dca1db97c4b60fd8a5b76c21d13b8bdca0d
+    digest: e3c2153fa8441758ea2476ad0a8b75414569eea2e43e4689f9e8477ba8d3d602
+    name: monitoring-stack
+    type: application
+    urls:
+    - https://poteenoka.github.io/14applicationdeployment/monitoring-stack-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2026-03-21T09:19:17.633972083Z"
+    dependencies:
+    - name: prometheus
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 25.30.0
+    - name: grafana
+      repository: https://grafana.github.io/helm-charts
+      version: 8.5.1
+    description: Prometheus + Grafana umbrella chart
+    digest: 164a09fada0ef70b06323613e220ad1b94d2126ac7ebbb1de07e338bafcde9fc
     name: monitoring-stack
     type: application
     urls:
@@ -31,7 +48,7 @@ entries:
     version: 0.1.3
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2026-03-20T22:04:19.691804626Z"
+    created: "2026-03-21T09:19:17.621316055Z"
     dependencies:
     - name: prometheus
       repository: https://prometheus-community.github.io/helm-charts
@@ -48,7 +65,7 @@ entries:
     version: 0.1.2
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2026-03-20T22:04:19.681313759Z"
+    created: "2026-03-21T09:19:17.606700583Z"
     dependencies:
     - name: prometheus
       repository: https://prometheus-community.github.io/helm-charts
@@ -63,4 +80,4 @@ entries:
     urls:
     - https://poteenoka.github.io/14applicationdeployment/monitoring-stack-0.1.1.tgz
     version: 0.1.1
-generated: "2026-03-20T22:04:19.669245336Z"
+generated: "2026-03-21T09:19:17.593559919Z"

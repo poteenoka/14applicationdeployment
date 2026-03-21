@@ -9,9 +9,7 @@ prometheus:
       type: ClusterIP
   alertmanager:
     persistentVolume:
-      enabled: true
-      storageClass: nfs-client
-      size: 2Gi
+      enabled: false
 
 grafana:
   adminUser: admin
