@@ -1,14 +1,15 @@
-# Без PVC: данные в emptyDir — при удалении пода теряются (для dev/учебы ок).
+# Prometheus / Grafana — без PVC (emptyDir). Только Alertmanager — PVC на nfs-client.
 prometheus:
   server:
     persistentVolume:
       enabled: false
     service:
       type: ClusterIP
-  # В subchart alertmanager ключ — persistence, НЕ persistentVolume (иначе игнорируется).
   alertmanager:
     persistence:
-      enabled: false
+      enabled: true
+      storageClass: nfs-client
+      size: 2Gi
 
 grafana:
   adminUser: admin
@@ -18,6 +19,5 @@ grafana:
   service:
     type: ClusterIP
 
-# Istio host routing settings (same style as previous chart)
 hostOctet: 3
 gatewayPort: 80
