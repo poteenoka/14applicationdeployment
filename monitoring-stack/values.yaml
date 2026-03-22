@@ -5,6 +5,7 @@ prometheus:
       enabled: false
     service:
       type: ClusterIP
+  # Subchart alertmanager: только persistence.* (persistentVolume игнорируется → PVC без storageClass).
   alertmanager:
     persistence:
       enabled: true
