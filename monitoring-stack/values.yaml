@@ -5,12 +5,76 @@ prometheus:
       enabled: false
     service:
       type: ClusterIP
-  # Subchart alertmanager: только persistence.* (persistentVolume игнорируется → PVC без storageClass).
+
+  # Правила алертов (подключаются дефолтным prometheus.yml → rule_files → alerting_rules.yml)  -- правило взято из дашборта скачанного с grafanaDashboars
+  serverFiles:
+    alerting_rules.yml:
+      groups:
+        - name: container-cpu
+          rules:
+            - alert: ContainerCPUUsageHigh
+              expr: |
+                (
+                  sum by (namespace, pod, container) (
+                    irate(container_cpu_usage_seconds_total{container!="", container!="POD", image!=""}[2m])
+                  )
+                  /
+                  (
+                    sum by (namespace, pod, container) (container_spec_cpu_quota{container!="", container!="POD"})
+                    /
+                    sum by (namespace, pod, container) (container_spec_cpu_period{container!="", container!="POD"})
+                  )
+                ) * 100 > 80
+                and on (namespace, pod, container)
+                sum by (namespace, pod, container) (container_spec_cpu_quota{container!="", container!="POD"}) > 0
+              for: 5m
+              labels:
+                severity: warning
+              annotations:
+                summary: "CPU > 80% лимита (cgroup)"
+                description: "{{ $labels.namespace }}/{{ $labels.pod }}/{{ $labels.container }} — использование CPU выше 80% от container limit (quota/period) в течение 5m."
+
+  # Subchart alertmanager: только persistence.* (не persistentVolume).
+  # Если PVC уже создан БЕЗ storageClass: volumeClaimTemplates у STS не меняется патчем —
+  # удали STS alertmanager и PVC, затем Sync в ArgoCD (см. helm template → storageClassName есть).
   alertmanager:
     persistence:
       enabled: true
       storageClass: nfs-client
       size: 2Gi
+
+    # Webhook Slack: URL не кладём в git — Secret с ключом `url`, путь читается из файла.
+    # kubectl -n <ns> create secret generic alertmanager-slack-webhook --from-literal=url='https://hooks.slack.com/services/...'
+    extraSecretMounts:
+      - name: slack-webhook
+        mountPath: /etc/alertmanager/secrets/slack_incoming_webhook
+        subPath: url
+        secretName: alertmanager-slack-webhook
+        readOnly: true
+
+    config:
+      enabled: true
+      global:
+        slack_api_url_file: /etc/alertmanager/secrets/slack_incoming_webhook
+      route:
+        receiver: slack
+        group_by: ["alertname", "namespace", "severity"]
+        group_wait: 30s
+        group_interval: 5m
+        repeat_interval: 12h
+      receivers:
+        - name: slack
+          slack_configs:
+            - send_resolved: true
+              channel: "#alerts"
+              title: '[{{ .Status | toUpper }}] {{ .CommonLabels.alertname }}'
+              text: >-
+                {{ range .Alerts -}}
+                *{{ .Labels.severity }}* {{ .Annotations.summary }}
+                {{ .Annotations.description }}
+                {{ end }}
+      templates:
+        - "/etc/alertmanager/*.tmpl"
 
 grafana:
   adminUser: admin
