@@ -5,8 +5,9 @@ prometheus:
       enabled: false
     service:
       type: ClusterIP
+  # В subchart alertmanager ключ — persistence, НЕ persistentVolume (иначе игнорируется).
   alertmanager:
-    persistentVolume:
+    persistence:
       enabled: false
 
 grafana:
