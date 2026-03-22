@@ -44,10 +44,11 @@ prometheus:
       size: 2Gi
 
     # Webhook Slack: URL не кладём в git — Secret с ключом `url`, путь читается из файла.
+    # Не монтировать под /etc/alertmanager — там ConfigMap; subPath даёт "not a directory".
     # kubectl -n <ns> create secret generic alertmanager-slack-webhook --from-literal=url='https://hooks.slack.com/services/...'
     extraSecretMounts:
       - name: slack-webhook
-        mountPath: /etc/alertmanager/secrets/slack_incoming_webhook
+        mountPath: /etc/alertmanager-slack-url
         subPath: url
         secretName: alertmanager-slack-webhook
         readOnly: true
@@ -55,7 +56,7 @@ prometheus:
     config:
       enabled: true
       global:
-        slack_api_url_file: /etc/alertmanager/secrets/slack_incoming_webhook
+        slack_api_url_file: /etc/alertmanager-slack-url
       route:
         receiver: slack
         group_by: ["alertname", "namespace", "severity"]
