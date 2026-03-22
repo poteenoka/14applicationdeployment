@@ -1,10 +1,8 @@
+# Без PVC: данные в emptyDir — при удалении пода теряются (для dev/учебы ок).
 prometheus:
-  # NFS dynamic provisioner (kubectl get storageclass nfs-client)
   server:
     persistentVolume:
-      enabled: true
-      storageClass: nfs-client
-      size: 8Gi
+      enabled: false
     service:
       type: ClusterIP
   alertmanager:
@@ -15,9 +13,7 @@ grafana:
   adminUser: admin
   adminPassword: "Mypass2D"
   persistence:
-    enabled: true
-    storageClassName: nfs-client
-    size: 2Gi
+    enabled: false
   service:
     type: ClusterIP
 
