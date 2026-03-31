@@ -1,0 +1,19 @@
+namespace: logging
+createNamespace: true
+
+replicaCount: 1
+
+image:
+  repository: grafana/loki
+  pullPolicy: IfNotPresent
+  tag: "2.9.8"
+
+service:
+  type: ClusterIP
+  port: 3100
+
+resources: {}
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
