@@ -14,6 +14,12 @@ service:
 
 resources: {}
 
+persistence:
+  enabled: true
+  size: 10Gi
+  # Optional; set to your StorageClass name, or omit for cluster default
+  # storageClassName: standard
+
 nodeSelector: {}
 tolerations: []
 affinity: {}
